@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cv_io", 
-    version="0.0.1",
+    version="0.0.2",
     author="Saeid Hosseinipoor",
     author_email="shossei1@stevens.edu",
     description="A collection of I/O scripts for computer vision formats.",
@@ -18,7 +18,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.5',
 )
 
 # python3 setup.py sdist bdist_wheel
