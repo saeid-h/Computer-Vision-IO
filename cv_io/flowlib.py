@@ -12,7 +12,7 @@
 import numpy as np
 import matplotlib.colors as cl
 import matplotlib.pyplot as plt
-from PIL import Image
+# from PIL import Image
 
 
 UNKNOWN_FLOW_THRESH = 1e7
@@ -427,9 +427,10 @@ def read_image(filename):
     :param filename: name of the image file
     :return: image data in matrix uint8 type
     """
-    img = Image.open(filename)
-    im = np.array(img)
-    return im
+    # img = Image.open(filename)
+    # im = np.array(img)
+    # return im
+    return cv2.imread(filename)[...,::-1]
 
 
 def warp_image(im, flow):

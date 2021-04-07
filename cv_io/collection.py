@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import, division, print_function
 
-from PIL import Image 
+# from PIL import Image 
 import matplotlib.pyplot as plt
 import os
 import imagecodecs
@@ -33,7 +33,8 @@ def write_image(file_name, image):
 	:param image: image array
 	:return: None
 	"""
-	return Image.fromarray(image).save(file_name)
+	# return Image.fromarray(image).save(file_name)
+	return cv2.imwrite(file_name, image[...,::-1])
 
 
 # Methods from pfmutil:

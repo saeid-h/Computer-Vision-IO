@@ -16,7 +16,8 @@ Max Planck Institute for Intelligent Systems, Tuebingen, Germany
 
 # Requirements: Numpy as PIL/Pillow
 import numpy as np
-from PIL import Image
+import cv2
+# from PIL import Image
 
 # Check for endianness, based on Daniel Scharstein's optical flow code.
 # Using little-endian architecture, these two should be equal.
@@ -124,16 +125,18 @@ def disparity_write(filename,disparity,bitdepth=16):
         d_b = (d * (2**14) % 256).astype('uint8')
         out[:,:,2] = d_b
 
-    Image.fromarray(out,'RGB').save(filename,'PNG')
+    # Image.fromarray(out,'RGB').save(filename,'PNG')
+    cv2.imwrite(filename, out[...,::-1])
 
 
 def disparity_read(filename):
     """ Return disparity read from filename. """
-    f_in = np.array(Image.open(filename))
+    # f_in = np.array(Image.open(filename))
+    f_in = cv2.imread(filename)[...,::-1]
     d_r = f_in[:,:,0].astype('float64')
     d_g = f_in[:,:,1].astype('float64')
     d_b = f_in[:,:,2].astype('float64')
-
+    
     depth = d_r * 4 + d_g / (2**6) + d_b / (2**14)
     return depth
 
@@ -199,12 +202,14 @@ def segmentation_write(filename,segmentation):
     out[:,:,1] = seg_g
     out[:,:,2] = seg_b
 
-    Image.fromarray(out,'RGB').save(filename,'PNG')
+    # Image.fromarray(out,'RGB').save(filename,'PNG')
+    cv2.imwrite(filename, out[...,::-1])
 
 
 def segmentation_read(filename):
     """ Return disparity read from filename. """
-    f_in = np.array(Image.open(filename))
+    # f_in = np.array(Image.open(filename))
+    f_in = cv2.imread(filename)[...,::-1]
     seg_r = f_in[:,:,0].astype('int32')
     seg_g = f_in[:,:,1].astype('int32')
     seg_b = f_in[:,:,2].astype('int32')
