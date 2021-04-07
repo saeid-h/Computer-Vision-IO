@@ -9,6 +9,8 @@ File format | Desciption
 *.flo | Middleburry optical flow
 *.dpt | Middleburry floating point depth
 *.pfm | Freiburg floating point disparity
+*.exr | OpenXR hdr format
+*.jxr | MicroSoft JPEG-XR hdr format
 
 
 ## Main Fucntions
