@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/venv python
 
 #############################################################################
 #																			#
@@ -13,6 +13,8 @@ from __future__ import absolute_import, division, print_function
 from PIL import Image 
 import matplotlib.pyplot as plt
 import os
+import imagecodecs
+import cv2
 
 import cv_io.sintel_io as sintel_io
 import cv_io.flowlib as flowlib
@@ -89,7 +91,7 @@ def read(file_name, image_type='file-extension-default'):
 	ext = os.path.splitext(file_name)[1].lower()[1:]
 	image_type = image_type.lower()
 	if not image_type in IMAGE_TYPES:
-		prtint (IMAGE_TYPES_ERR_MSG)
+		print (IMAGE_TYPES_ERR_MSG)
 		return
 
 	if image_type == 'file-extension-default':
@@ -101,6 +103,10 @@ def read(file_name, image_type='file-extension-default'):
 			return read_dpt(file_name)
 		elif ext in ['pfm']:
 			return read_pfm(file_name)
+		elif ext in ['jxr']:
+			return imagecodecs.read(file_name, codec='jpegxr').astype(np.float32) / 255 / 255
+		elif ext in ['exr']:
+			return cv2.imread(file_name, cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
 		else:
 			print ("ERROR: The image type is unknown.")
 	elif image_type == 'optical-flow':
@@ -110,7 +116,7 @@ def read(file_name, image_type='file-extension-default'):
 	elif image_type == 'depth':
 		return read_dpt(file_name)
 	elif image_type == 'kitti-disparity':
-		return flowlib.read_image(file_name).astype(np.float32) / 256.
+		return flowlib.read_image(file_name).astype(np.float32) / 255.
 	else:
 		print ("This image type is not implemented.")
 
@@ -131,7 +137,7 @@ def save(file_name, image, image_type='file-extension-default'):
 	ext = os.path.splitext(file_name)[1].lower()[1:]
 	image_type = image_type.lower()
 	if not image_type in IMAGE_TYPES:
-		prtint (IMAGE_TYPES_ERR_MSG)
+		print (IMAGE_TYPES_ERR_MSG)
 		return
 
 	if image_type == 'file-extension-default':
