@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import os
 import imagecodecs
 import cv2
+import numpy as np
 
 import cv_io.sintel_io as sintel_io
 import cv_io.flowlib as flowlib
@@ -33,7 +34,6 @@ def write_image(file_name, image):
 	:param image: image array
 	:return: None
 	"""
-	# return Image.fromarray(image).save(file_name)
 	return cv2.imwrite(file_name, image[...,::-1])
 
 
@@ -78,7 +78,7 @@ read_jpg = flowlib.read_image
 save_jpg = write_image
 
 
-def read(file_name, image_type='file-extension-default'):
+def imread(file_name, image_type='file-extension-default'):
 	'''
 	Read image
 	:param file_name:
@@ -105,9 +105,10 @@ def read(file_name, image_type='file-extension-default'):
 		elif ext in ['pfm']:
 			return read_pfm(file_name)
 		elif ext in ['jxr']:
-			return imagecodecs.read(file_name, codec='jpegxr').astype(np.float32) / 255 / 255
+			return imagecodecs.imread(file_name, codec='jpegxr').astype(np.float32) / (2**16 - 1)
 		elif ext in ['exr']:
-			return cv2.imread(file_name, cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
+			img = cv2.imread(file_name, cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
+			return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 		else:
 			print ("ERROR: The image type is unknown.")
 	elif image_type == 'optical-flow':
@@ -122,7 +123,7 @@ def read(file_name, image_type='file-extension-default'):
 		print ("This image type is not implemented.")
 
 
-def save(file_name, image, image_type='file-extension-default'):
+def imwrite(file_name, image, image_type='file-extension-default'):
 	'''
 	Save image
 	:param file_name:
@@ -150,6 +151,10 @@ def save(file_name, image, image_type='file-extension-default'):
 			return save_dpt(file_name, image)
 		elif ext in ['pfm']:
 			return save_pfm(file_name, image)
+		elif ext in ['jxr']:
+			return imagecodecs.imwrite(file_name, (image*(2**16 - 1)).astype(np.uint16), codec='jpegxr')
+		elif ext in ['exr']:
+			return cv2.imwrite(file_name, image, [cv2.IMWRITE_EXR_TYPE_HALF])
 		else:
 			print ("ERROR: The image type is unknown.") 
 	elif image_type == 'optical-flow':
@@ -167,7 +172,7 @@ def save(file_name, image, image_type='file-extension-default'):
 		print ("This image type is not implemented.")
 
 
-def show(parameter):
+def imshow(parameter):
 	'''
 	Show image
 	:param parameter:
@@ -175,18 +180,22 @@ def show(parameter):
 		If it is a image array it shows it
 	:return: None
 	'''
-	image = read(parameter) if parameter is str else parameter
-	if len(parameter.shape == 3) and parameter.shape[-1] == 2:
+	image = imread(parameter) if parameter is str else parameter
+	if len(parameter.shape) == 3 and parameter.shape[-1] == 2:
 		show_flow(parameter)
 	else: 
-		if len(parameter.shape == 3) and parameter.shape[-1] == 1:
+		if len(parameter.shape) == 3 and parameter.shape[-1] == 1:
 			parameter = np.squeeze(parameter)
 			plt.imshow(parameter.astype(np.float32), cmap='gray')
 		else:
 			plt.imshow(parameter.astype(np.float32))
 		plt.show()
 
-	
+# Just for keeping consistency with previous revision:
+read = imread
+save = imwrite
+show = imshow
+
 
 if __name__ == "__main__":
 	pass

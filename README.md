@@ -16,10 +16,10 @@ File format | Desciption
 ## Main Fucntions
 Function | Desciption
 ---------|------------
-read (file\_name) | Reads an image from "file\_name"
-save (file\_name, image) | Saves the "image" array to "file\_name"
-show (image) | Displays the "image" array by matplotlib
-show (file\_name) | Displays an image file from "file\_name"
+imread (file\_name) | Reads an image from "file\_name"
+imwrite (file\_name, image) | Saves the "image" array to "file\_name"
+imshow (image) | Displays the "image" array by matplotlib
+imshow (file\_name) | Displays an image file from "file\_name"
 
 ## Requirements
 Package requirement are listed in [requirements.txt](requirements.txt) file and it will be installed through `pip` isntallation. If you clone the repository you may install requirements manually:
@@ -42,9 +42,9 @@ pip install cv_io
 Then you can simply import it in a python code and use it as follows:
 ```python
 import cv_io
-image = cv_io.read('samples/0512.pfm')
-cv_io.show(image)
-cv_io.save('test.pfm', image)
+image = cv_io.imread('samples/0512.pfm')
+cv_io.imshow(image)
+cv_io.imwrite('test.pfm', image)
 ```
 You also have acess to the original libraries like `sintel_io` through the `cv_io` as a sub-module: 
 ```python
