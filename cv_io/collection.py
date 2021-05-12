@@ -195,6 +195,8 @@ def imshow(parameter):
 read = imread
 save = imwrite
 show = imshow
+imload = imread
+imsave = imwrite
 
 
 if __name__ == "__main__":
