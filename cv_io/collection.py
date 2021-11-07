@@ -10,7 +10,6 @@
 
 from __future__ import absolute_import, division, print_function
 
-# from PIL import Image 
 import matplotlib.pyplot as plt
 import os
 import imagecodecs

@@ -7,13 +7,10 @@
 # Date: 6th Aug 2016
 # ==============================
 """
-# import png
-# import scipy.misc
 import numpy as np
 import matplotlib.colors as cl
 import matplotlib.pyplot as plt
 import cv2
-# from PIL import Image
 
 
 UNKNOWN_FLOW_THRESH = 1e7

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cv_io", 
-    version="1.0.0",
+    version="1.1.0",
     author="Saeid Hosseinipoor",
     author_email="shossei1@stevens.edu",
     description="A collection of I/O scripts for computer vision formats.",

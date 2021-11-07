@@ -1,4 +1,4 @@
-#! /usr/bin/env python2
+#! /usr/bin/env python
 
 """
 I/O script to save and load the data coming with the MPI-Sintel low-level
@@ -17,7 +17,6 @@ Max Planck Institute for Intelligent Systems, Tuebingen, Germany
 # Requirements: Numpy as PIL/Pillow
 import numpy as np
 import cv2
-# from PIL import Image
 
 # Check for endianness, based on Daniel Scharstein's optical flow code.
 # Using little-endian architecture, these two should be equal.
